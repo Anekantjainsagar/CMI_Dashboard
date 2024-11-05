@@ -2,20 +2,21 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+.small-scroller::-webkit-scrollbar {
+  width: 8px;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* Track */
+.small-scroller::-webkit-scrollbar-track {
+  border-radius: 10px;
 }
 
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+/* Handle */
+.small-scroller::-webkit-scrollbar-thumb {
+  background: rgb(44, 44, 44);
+  border-radius: 10px;
+}
+
+.gridNumbers {
+  grid-template-columns: 5.5% 5.5% 7.73% 7.73% 7.73% 7.73% 7.73% 7.73% 7.73% 7.73% 7.73% 7.73% 7.73% 4%;
 }
