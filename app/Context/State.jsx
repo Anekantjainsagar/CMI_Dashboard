@@ -9,7 +9,7 @@ const State = ({ children }) => {
   const [mainData, setMainData] = useState();
   const [search_text, setSearch_text] = useState("");
 
-  const getMainData = (grow, order_by = "id", type = "asc") => {
+  const getMainData = (grow, order_by = "invoice_date", type = "desc") => {
     let cookie = getCookie("token");
     let page = mainData?.current_page ? mainData?.current_page : 1;
     let limit = mainData?.limit ? mainData?.limit : 8;
@@ -24,9 +24,7 @@ const State = ({ children }) => {
       try {
         axios
           .get(
-            `${BACKEND_URI}/data/search?page=${page}&page_size=${limit}&sort_by=${order_by}&sort_order=${
-              type ? "asc" : "desc"
-            }&search_text=${search_text}`,
+            `${BACKEND_URI}/data/search?page=${page}&page_size=${limit}&sort_by=${order_by}&sort_order=${type}&search_text=${search_text}`,
             {
               headers: {
                 // Authorization: `Bearer ${cookie}`,
