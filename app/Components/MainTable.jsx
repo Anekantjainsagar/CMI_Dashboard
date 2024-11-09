@@ -1,31 +1,29 @@
 "use client";
+import { useContext, useEffect } from "react";
 import DetailsBlock from "./Home/DetailsBlock";
-
-const agencies = {
-  data: [{}, {}, {}, {}, {}],
-};
+import Context from "../Context/Context";
 
 const MainTable = () => {
-  let getAgencies = () => {};
+  const { getMainData, mainData } = useContext(Context);
 
   const showNextPage = () => {
-    getAgencies("inc");
+    getMainData("inc");
   };
 
   const showPrevPage = () => {
-    getAgencies("dec");
+    getMainData("dec");
   };
 
   return (
-    <div className="mt-5 px-4 border border-gray-200/5 rounded-2xl">
-      <div className="grid bg-aquaGreen text-white gridNumbers items-center rounded-t-2xl">
+    <div className="px-4 border border-gray-200/5 rounded-2xl">
+      <div className="grid bg-aquaGreen mr-3.5 text-white gridNumbers items-center rounded-t-2xl">
         {[
           "Invoice",
           "Date",
           "PO Number",
           "Seller",
           "Discharge",
-          "Landing",
+          "Origin",
           "Product ID",
           "Product Name",
           "Product Quantity",
@@ -34,11 +32,11 @@ const MainTable = () => {
           "Total Quantity",
           "Total Price ($)",
           "Actions",
-        ].map((e, i, arr) => {
+        ].map((e, i) => {
           return (
             <h5
               key={i}
-              className={`text-[13px] min-[1600px]:text-base text-center border-r-white py-4 ${
+              className={`text-[13px] min-[1600px]:text-base px-2 h-[6vh] flex items-center justify-center text-center border-r-white ${
                 i !== 13 && "border-r"
               }`}
             >
@@ -49,17 +47,17 @@ const MainTable = () => {
       </div>
       <div className="h-[74vh]">
         <div className="overflow-y-auto small-scroller h-[90%]">
-          {agencies?.data?.map((e, i) => {
+          {mainData?.data?.map((e, i) => {
             return <DetailsBlock key={i} data={e} />;
           })}
         </div>
-        <div className="px-6 flex items-center justify-between">
+        <div className="flex items-center justify-between mt-5">
           <div className="flex items-center justify-between w-full">
             <button
               onClick={showPrevPage}
-              disabled={agencies?.current_page == 1}
+              disabled={mainData?.current_page == 1}
               className={`text-white ${
-                agencies?.current_page == 1 ? "bg-gray-400" : "bg-aquaGreen"
+                mainData?.current_page == 1 ? "bg-gray-400" : "bg-aquaGreen"
               } bg-[#898989]/15 flex items-center w-[120px] min-[1600px]:w-[150px] justify-center py-2.5 min-[1600px]:py-3 rounded-lg text-[14px] min-[1600px]:text-[18px]`}
             >
               <div className="mr-2 w-5 min-[1600px]:w-8">
@@ -82,15 +80,15 @@ const MainTable = () => {
               Previous
             </button>
             <div className="gap-x-4 flex items-center">
-              {[...Array(agencies?.total_pages).keys()]
+              {[...Array(mainData?.total_pages).keys()]
                 .map((i) => i + 1)
                 ?.slice(0, 3)
                 ?.map((e, i) => {
                   return (
                     <div
                       className={`w-[30px] min-[1600px]:w-[40px] h-[30px] text-sm min-[1600px]:text-base min-[1600px]:h-[40px] rounded-lg flex items-center justify-center cursor-pointer ${
-                        agencies?.current_page == e
-                          ? "bg-newBlue"
+                        mainData?.current_page == e
+                          ? "bg-aquaGreen text-white"
                           : "text-[#85888E]"
                       }`}
                       key={i}
@@ -99,19 +97,19 @@ const MainTable = () => {
                     </div>
                   );
                 })}
-              {agencies?.total_pages - 6 > 0 && (
+              {mainData?.total_pages - 6 > 0 && (
                 <span className="text-[#85888E]">...</span>
               )}
-              {agencies?.total_pages > 3 &&
-                [...Array(agencies?.total_pages).keys()]
+              {mainData?.total_pages > 5 &&
+                [...Array(mainData?.total_pages).keys()]
                   .map((i) => i + 1)
-                  ?.slice(agencies?.total_pages - 3)
+                  ?.slice(mainData?.total_pages - 3)
                   ?.map((e, i) => {
                     return (
                       <div
                         className={`w-[30px] min-[1600px]:w-[40px] h-[30px] text-sm min-[1600px]:text-base min-[1600px]:h-[40px] rounded-lg flex items-center justify-center cursor-pointer ${
-                          users?.current_page == e
-                            ? "bg-newBlue"
+                          mainData?.current_page == e
+                            ? "bg-aquaGreen text-white"
                             : "text-[#85888E]"
                         }`}
                         key={i}
@@ -123,9 +121,9 @@ const MainTable = () => {
             </div>
             <button
               onClick={showNextPage}
-              disabled={agencies?.total_pages == agencies?.current_page}
+              disabled={mainData?.total_pages == mainData?.current_page}
               className={`text-white ${
-                agencies?.total_pages == agencies?.current_page
+                mainData?.total_pages == mainData?.current_page
                   ? "bg-gray-400"
                   : "bg-aquaGreen"
               } flex items-center w-[120px] min-[1600px]:w-[150px] justify-center py-2.5 min-[1600px]:py-3 rounded-lg text-[14px] min-[1600px]:text-[18px]`}
