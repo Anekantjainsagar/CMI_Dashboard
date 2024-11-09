@@ -7,11 +7,11 @@ const MainTable = () => {
   const { getMainData, mainData } = useContext(Context);
 
   const showNextPage = () => {
-    getMainData("inc");
+    getMainData(mainData?.current_page + 1);
   };
 
   const showPrevPage = () => {
-    getMainData("dec");
+    getMainData(mainData?.current_page - 1);
   };
 
   return (
@@ -92,6 +92,9 @@ const MainTable = () => {
                           : "text-[#85888E]"
                       }`}
                       key={i}
+                      onClick={() => {
+                        getMainData(e);
+                      }}
                     >
                       {e}
                     </div>
@@ -100,21 +103,24 @@ const MainTable = () => {
               {mainData?.total_pages - 6 > 0 && (
                 <span className="text-[#85888E]">...</span>
               )}
-              {mainData?.total_pages > 5 &&
-                [...Array(mainData?.total_pages).keys()]
+              {mainData?.total_pages > 3 &&
+                [...Array(mainData?.total_pages - 3).keys()]
                   .map((i) => i + 1)
-                  ?.slice(mainData?.total_pages - 3)
+                  ?.slice(mainData?.total_pages - 6, mainData?.total_pages)
                   ?.map((e, i) => {
                     return (
                       <div
                         className={`w-[30px] min-[1600px]:w-[40px] h-[30px] text-sm min-[1600px]:text-base min-[1600px]:h-[40px] rounded-lg flex items-center justify-center cursor-pointer ${
-                          mainData?.current_page == e
+                          mainData?.current_page == e + 3
                             ? "bg-aquaGreen text-white"
                             : "text-[#85888E]"
                         }`}
+                        onClick={() => {
+                          getMainData(e + 3);
+                        }}
                         key={i}
                       >
-                        {e}
+                        {e + 3}
                       </div>
                     );
                   })}

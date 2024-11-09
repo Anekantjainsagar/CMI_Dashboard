@@ -9,17 +9,10 @@ const State = ({ children }) => {
   const [mainData, setMainData] = useState();
   const [search_text, setSearch_text] = useState("");
 
-  const getMainData = (grow, order_by = "invoice_date", type = "desc") => {
+  const getMainData = (page = 1, order_by = "invoice_date", type = "desc") => {
     let cookie = getCookie("token");
-    let page = mainData?.current_page ? mainData?.current_page : 1;
     let limit = mainData?.limit ? mainData?.limit : 8;
-    if (grow == "inc") {
-      page++;
-    } else if (grow == "dec") {
-      page--;
-    }
 
-    setMainData();
     if (cookie?.length > 5) {
       try {
         axios
