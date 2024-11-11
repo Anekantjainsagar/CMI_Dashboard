@@ -10,6 +10,7 @@ const State = ({ children }) => {
   const [search_text, setSearch_text] = useState("");
 
   const getMainData = (page = 1, order_by = "invoice_date", type = "desc") => {
+    console.log("Request sent");
     let cookie = getCookie("token");
     let limit = mainData?.limit ? mainData?.limit : 8;
 
@@ -40,6 +41,7 @@ const State = ({ children }) => {
   };
 
   useEffect(() => {
+    console.log("Request sent");
     getMainData();
   }, [search_text]);
 
