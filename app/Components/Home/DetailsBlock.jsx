@@ -5,6 +5,8 @@ import AddNew from "./AddNew";
 const DetailsBlock = ({ data }) => {
   const [editAgency, setEditAgency] = useState(false);
 
+  console.log(data?.items[0]?.data?.map((e) => e?.product_id));
+
   return (
     <>
       <AddNew
@@ -21,20 +23,22 @@ const DetailsBlock = ({ data }) => {
           data?.invoice_date
             ? new Date(data?.invoice_date).toString()?.slice(4, 16)
             : "",
-          data?.po_number,
+          data?.items[0]?.po_number,
           data?.seller_name,
           data?.port_of_discharge,
           data?.port_of_loading,
-          data?.product_id,
-          data?.product_name,
-          data?.product_quantity,
-          data?.unit_price_usd,
-          parseFloat(data?.unit_price_usd * data?.product_quantity).toFixed(2),
+          data?.items[0]?.data?.map((e) => e?.product_id),
+          data?.items[0]?.data?.map((e) => e?.product_name),
+          data?.items[0]?.data?.map((e) => e?.product_quantity),
+          data?.items[0]?.data?.map((e) => e?.unit_price_usd),
+          data?.items[0]?.data?.map((e) =>
+            parseFloat(e?.unit_price_usd * data?.product_quantity).toFixed(2)
+          ),
           data?.total_quantity,
           data?.total_price,
         ].map((e, i) => {
           return (
-            <p
+            <div
               key={i}
               className={`flex flex-col py-2 ${
                 !Array.isArray(e) && "px-2"
@@ -42,19 +46,26 @@ const DetailsBlock = ({ data }) => {
                 i == 0 && "border-l"
               } ${i !== 13 && "border-r"}`}
             >
-              {Array.isArray(e) ? (
-                <>
-                  <span className="w-full h-1/2 py-1 px-2 flex items-center justify-center">
-                    {e[0]}
-                  </span>
-                  <span className="border-t w-full py-1 px-2 border-t-[#CACACA] h-1/2 flex items-center justify-center">
-                    {e[1]}
-                  </span>
-                </>
+              {!Array.isArray(e) ? (
+                <p className="w-full h-1/2 py-1 px-2 flex items-center justify-center">
+                  {e}
+                </p>
               ) : (
-                e
+                <div className={`w-full`}>
+                  {e?.length > 0 &&
+                    e?.map((item, index, arr) => (
+                      <p
+                        key={index}
+                        className={`w-full min-h-[6vh] max-h-[10vh] px-2 flex items-center justify-center ${
+                          index != 0 && "border-t"
+                        } border-t-[#CACACA]`}
+                      >
+                        {item}
+                      </p>
+                    ))}
+                </div>
               )}
-            </p>
+            </div>
           );
         })}
         <div className="flex flex-col items-center justify-center border-r border-r-[#CACACA] gap-y-4 h-full">
