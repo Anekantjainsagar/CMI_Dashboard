@@ -10,7 +10,6 @@ const State = ({ children }) => {
   const [search_text, setSearch_text] = useState("");
 
   const getMainData = (page = 1, order_by = "invoice_date", type = "desc") => {
-    console.log("Request sent");
     let cookie = getCookie("token");
     let limit = mainData?.limit ? mainData?.limit : 8;
 
@@ -21,7 +20,7 @@ const State = ({ children }) => {
             `${BACKEND_URI}/data/search?page=${page}&page_size=${limit}&sort_by=${order_by}&sort_order=${type}&search_text=${search_text}`,
             {
               headers: {
-                // Authorization: `Bearer ${cookie}`,
+                Authorization: `Bearer ${cookie}`,
               },
             }
           )
@@ -41,7 +40,6 @@ const State = ({ children }) => {
   };
 
   useEffect(() => {
-    console.log("Request sent");
     getMainData();
   }, [search_text]);
 

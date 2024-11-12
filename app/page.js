@@ -1,14 +1,21 @@
 "use client";
+import axios from "axios";
 import { useRouter } from "next/navigation";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
+import toast from "react-hot-toast";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { BACKEND_URI } from "./Utils/urls";
+import { setCookie } from "cookies-next";
+import Context from "./Context/Context";
 
 const App = () => {
+  const { getMainData } = useContext(Context);
+  const [user, setUser] = useState({ email: "", password: "" });
   const history = useRouter();
 
   return (
     <div className="flex items-center justify-center h-[100vh]">
-      <div className="w-[30vw] border px-5 py-3 border-aquaGreen rounded-lg flex flex-col">
+      <div className="w-[25vw] border px-5 py-3 border-aquaGreen rounded-lg flex flex-col">
         <h1 className="text-3xl text-center text-aquaGreen font-semibold">
           Login Now
         </h1>
@@ -19,14 +26,43 @@ const App = () => {
           <input
             id="email"
             type="email"
+            value={user?.email}
+            onChange={(e) => setUser({ ...user, email: e.target.value })}
             className="w-full py-2 px-4 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none bg-white text-gray-900 placeholder-gray-500 text-lg"
             placeholder="Enter your email"
           />
         </div>
-        <PasswordInput />{" "}
+        <PasswordInput user={user} setUser={setUser} />
         <button
           onClick={() => {
-            history.push("/dashboard");
+            if (user?.email && user?.password) {
+              axios
+                .post(
+                  `${BACKEND_URI}/auth/login`,
+                  {
+                    username: user?.email,
+                    password: user?.password,
+                  },
+                  {
+                    headers: {
+                      "Content-Type": "application/x-www-form-urlencoded",
+                    },
+                  }
+                )
+                .then((res) => {
+                  if (res.status == 200) {
+                    setCookie("token", res.data.access_token);
+                    toast.success("Login Successfully");
+                    getMainData();
+                    history.push("/dashboard");
+                  }
+                })
+                .catch((err) => {
+                  console.log(err);
+                });
+            } else {
+              toast.error("Please fill all the details");
+            }
           }}
           className="bg-aquaGreen transition-all px-10 py-1.5 rounded-lg mt-5 text-xl text-white"
         >
@@ -37,7 +73,7 @@ const App = () => {
   );
 };
 
-const PasswordInput = () => {
+const PasswordInput = ({ user, setUser }) => {
   const [isVisible, setIsVisible] = useState(false);
 
   // Toggle password visibility
@@ -53,6 +89,8 @@ const PasswordInput = () => {
       <div className="relative">
         <input
           id="password"
+          value={user?.password}
+          onChange={(e) => setUser({ ...user, password: e.target.value })}
           type={isVisible ? "text" : "password"}
           className="w-full py-2 pl-4 pr-10 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none bg-white text-gray-900 placeholder-gray-500 text-lg"
           placeholder="Enter your password"

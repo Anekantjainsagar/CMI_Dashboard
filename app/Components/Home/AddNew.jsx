@@ -56,7 +56,7 @@ const AddNew = ({ showSubscribe, setShowSubscribe, data }) => {
               {
                 headers: {
                   "Content-Type": "application/x-www-form-urlencoded",
-                  // Authorization: `Bearer ${cookie}`,
+                  Authorization: `Bearer ${cookie}`,
                 },
               }
             )
@@ -88,7 +88,7 @@ const AddNew = ({ showSubscribe, setShowSubscribe, data }) => {
         axios
           .get(`${BACKEND_URI}/data/comments/${id}`, {
             headers: {
-              // Authorization: `Bearer ${cookie}`,
+              Authorization: `Bearer ${cookie}`,
             },
           })
           .then((res) => {
@@ -214,8 +214,14 @@ const CommentBlock = ({ e, comments, setComments }) => {
                 <p
                   className="text-center py-1.5 cursor-pointer hover:bg-gray-200 transition-all rounded-md"
                   onClick={() => {
+                    let cookie = getCookie("token");
                     axios
-                      .delete(`${BACKEND_URI}/data/comments/${e?.id}`)
+                      .delete(`${BACKEND_URI}/data/comments/${e?.id}`, {
+                        headers: {
+                          "Content-Type": "application/x-www-form-urlencoded",
+                          Authorization: `Bearer ${cookie}`,
+                        },
+                      })
                       .then((res) => {
                         if (res.status == 200) {
                           setShowBox(false);
@@ -262,6 +268,7 @@ const CommentBlock = ({ e, comments, setComments }) => {
             ></textarea>
             <TiTick
               onClick={() => {
+                let cookie = getCookie("token");
                 axios
                   .put(
                     `${BACKEND_URI}/data/comments/${e?.id}`,
@@ -271,7 +278,7 @@ const CommentBlock = ({ e, comments, setComments }) => {
                     {
                       headers: {
                         "Content-Type": "application/x-www-form-urlencoded",
-                        // Authorization: `Bearer ${cookie}`,
+                        Authorization: `Bearer ${cookie}`,
                       },
                     }
                   )
