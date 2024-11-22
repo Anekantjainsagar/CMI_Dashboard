@@ -53,10 +53,12 @@ const DetailsBlock = ({ data }) => {
                 !Array.isArray(e) && "px-2"
               } items-center justify-center min-[1600px]:text-[15px] text-[12px] border-[#CACACA] h-full ${
                 i == 0 && "border-l"
-              } ${i !== 13 && "border-r"} relative`}
+              } ${i !== 13 && "border-r"} relative overflow-hidden`}
             >
               {i == 0 && data?.comments_count > 0 && (
-                <span className="absolute right-2 top-2 bg-yellow-500 h-2 w-2 rounded-full"></span>
+                <div className="flex justify-center items-center absolute -right-2 -top-1">
+                  <div className="w-0 h-0 border-l-[13px] border-l-transparent border-r-[13px] border-r-transparent border-b-[13px] rotate-45 border-b-red-700"></div>
+                </div>
               )}
               {!Array.isArray(e) ? (
                 <p
@@ -76,7 +78,7 @@ const DetailsBlock = ({ data }) => {
                           i > 7 || i <= 2 ? "justify-center" : "justify-start"
                         } ${index != 0 && "border-t"} border-t-[#CACACA]`}
                       >
-                        {item}
+                        {item === NaN ? "-" : item}
                       </p>
                     ))}
                 </div>
