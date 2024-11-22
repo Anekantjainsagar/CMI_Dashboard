@@ -129,12 +129,12 @@ const AddNew = ({ showSubscribe, setShowSubscribe, data }) => {
               </p>
             </div>
             <div className="flex items-center mb-2 w-full">
-              <p className="w-4/12 text-lg text-gray-500">Invoice Number</p>
+              <p className="w-4/12 text-lg text-gray-500">Invoice #</p>
               <p className="w-7/12">{data?.invoice_number}</p>
             </div>
             <div className="flex items-center mb-2 w-full">
-              <p className="w-4/12 text-lg text-gray-500">PO Number</p>
-              <p className="w-7/12">{data?.po_number}</p>
+              <p className="w-4/12 text-lg text-gray-500">PO #</p>
+              <p className="w-7/12">{data?.items[0]?.po_number}</p>
             </div>
             <div className="h-[1px] mx-auto w-full my-3 bg-aquaGreen"></div>
             <div className="w-full text-lg pb-4">

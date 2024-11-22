@@ -5,7 +5,13 @@ import AddNew from "./AddNew";
 const DetailsBlock = ({ data }) => {
   const [editAgency, setEditAgency] = useState(false);
 
-  console.log(data?.items[0]?.data?.map((e) => e?.product_id));
+  function isNumeric(str) {
+    if (typeof str != "string") return false; // we only process strings!
+    return (
+      !isNaN(str) && // use type coercion to parse the _entirety_ of the string (`parseFloat` alone does not do this)...
+      !isNaN(parseFloat(str))
+    ); // ...and ensure strings of whitespace fail
+  }
 
   return (
     <>
@@ -15,40 +21,50 @@ const DetailsBlock = ({ data }) => {
         data={data}
       />
       <div
-        onClick={() => {}}
-        className="border-gray-200/5 mr-[7px] border-y grid gridNumbers items-center cursor-pointer text-[13px] border-b border-b-[#CACACA]"
+        onClick={() => setEditAgency(!editAgency)}
+        className="border-gray-200/5 hover:border-gray-500/50 transition-all hover:bg-gray-100 mr-[7px] border-y grid gridNumbers items-center cursor-pointer text-[12px] border-b border-b-[#CACACA]"
       >
         {[
-          data?.invoice_number,
+          data?.invoice_number || "-",
           data?.invoice_date
             ? new Date(data?.invoice_date).toString()?.slice(4, 16)
-            : "",
-          data?.items[0]?.po_number,
-          data?.seller_name,
-          data?.port_of_discharge,
-          data?.port_of_loading,
-          data?.items[0]?.data?.map((e) => e?.product_id),
-          data?.items[0]?.data?.map((e) => e?.product_name),
-          data?.items[0]?.data?.map((e) => e?.product_quantity),
-          data?.items[0]?.data?.map((e) => e?.unit_price_usd),
-          data?.items[0]?.data?.map((e) =>
-            parseFloat(e?.unit_price_usd * data?.product_quantity).toFixed(2)
+            : "-",
+          data?.items[0]?.po_number || "-",
+          data?.seller_name || "-",
+          data?.port_of_discharge || "-",
+          data?.port_of_loading || "-",
+          data?.items[0]?.data?.map((e) => e?.product_id) || "-",
+          data?.items[0]?.data?.map((e) => e?.product_name) || "-",
+          data?.items[0]?.data?.map((e) => e?.product_quantity) || "-",
+          data?.items[0]?.data?.map((e) => e?.unit_price_usd) || "-",
+          data?.items[0]?.data?.map(
+            (e) =>
+              parseFloat(e?.unit_price_usd * data?.product_quantity).toFixed(
+                2
+              ) || "-"
           ),
-          data?.total_quantity,
-          data?.total_price,
+          data?.total_quantity || "-",
+          data?.total_price || "-",
         ].map((e, i) => {
           return (
             <div
               key={i}
               className={`flex flex-col py-2 ${
                 !Array.isArray(e) && "px-2"
-              } items-center justify-center min-[1600px]:text-base text-center border-[#CACACA] h-full ${
+              } items-center justify-center min-[1600px]:text-[15px] text-[12px] border-[#CACACA] h-full ${
                 i == 0 && "border-l"
-              } ${i !== 13 && "border-r"}`}
+              } ${i !== 13 && "border-r"} relative`}
             >
+              {i == 0 && data?.comments_count > 0 && (
+                <span className="absolute right-2 top-2 bg-yellow-500 h-2 w-2 rounded-full"></span>
+              )}
               {!Array.isArray(e) ? (
-                <p className="w-full h-1/2 py-1 px-2 flex items-center justify-center">
-                  {e}
+                <p
+                  className={`w-full ${
+                    i > 7 || i <= 1 ? "justify-center" : "justify-start"
+                  } py-1 px-1 flex items-center min-h-min`}
+                >
+                  {e == NaN ? "-" : e}
                 </p>
               ) : (
                 <div className={`w-full`}>
@@ -56,9 +72,9 @@ const DetailsBlock = ({ data }) => {
                     e?.map((item, index, arr) => (
                       <p
                         key={index}
-                        className={`w-full min-h-[6vh] max-h-[10vh] px-2 flex items-center justify-center ${
-                          index != 0 && "border-t"
-                        } border-t-[#CACACA]`}
+                        className={`w-full min-h-[6vh] max-h-[9vh] px-2 flex items-center ${
+                          i > 7 || i <= 2 ? "justify-center" : "justify-start"
+                        } ${index != 0 && "border-t"} border-t-[#CACACA]`}
                       >
                         {item}
                       </p>
@@ -68,21 +84,6 @@ const DetailsBlock = ({ data }) => {
             </div>
           );
         })}
-        <div className="flex flex-col items-center justify-center border-r border-r-[#CACACA] gap-y-4 h-full">
-          <svg
-            width="21"
-            height="20"
-            viewBox="0 0 21 20"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-            onClick={() => setEditAgency(!editAgency)}
-          >
-            <path
-              d="M4.83309 15.8333H5.74809L14.6631 6.91833L13.7481 6.00333L4.83309 14.9183V15.8333ZM3.99976 16.6667V14.5667L14.9831 3.57333C15.0692 3.49721 15.1636 3.43833 15.2664 3.39666C15.3692 3.35499 15.4767 3.33388 15.5889 3.33333C15.7011 3.33277 15.8095 3.35055 15.9139 3.38666C16.0195 3.42166 16.1167 3.48499 16.2056 3.57666L17.0948 4.47166C17.1864 4.55999 17.2492 4.65721 17.2831 4.76333C17.3164 4.86888 17.3331 4.97444 17.3331 5.07999C17.3331 5.19333 17.3142 5.30166 17.2764 5.40499C17.2381 5.50777 17.1775 5.60194 17.0948 5.68749L6.09892 16.6667H3.99976ZM14.1981 6.46833L13.7481 6.00333L14.6631 6.91833L14.1981 6.46833Z"
-              fill="black"
-            />
-          </svg>
-        </div>
       </div>
     </>
   );

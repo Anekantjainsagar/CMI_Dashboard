@@ -8,6 +8,7 @@ import { getCookie } from "cookies-next";
 const State = ({ children }) => {
   const [mainData, setMainData] = useState();
   const [search_text, setSearch_text] = useState("");
+  const [allData, setAllData] = useState([]);
 
   const getMainData = (page = 1, order_by = "invoice_date", type = "desc") => {
     let cookie = getCookie("token");
@@ -25,10 +26,37 @@ const State = ({ children }) => {
             }
           )
           .then((res) => {
-            console.log(res.data);
             if (res.data?.data?.length > 0) {
               setMainData(res.data);
             }
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  };
+
+  const getFullData = () => {
+    let cookie = getCookie("token");
+
+    if (cookie?.length > 5 && mainData) {
+      try {
+        axios
+          .get(
+            `${BACKEND_URI}/data/search?page=1&page_size=${
+              mainData?.total_records
+            }&sort_by=${"invoice_date"}&sort_order=${"desc"}&search_text=${""}`,
+            {
+              headers: {
+                Authorization: `Bearer ${cookie}`,
+              },
+            }
+          )
+          .then((res) => {
+            setAllData(res.data.data);
           })
           .catch((err) => {
             console.log(err);
@@ -43,9 +71,13 @@ const State = ({ children }) => {
     getMainData();
   }, [search_text]);
 
+  useEffect(() => {
+    getFullData();
+  }, [mainData]);
+
   return (
     <Context.Provider
-      value={{ mainData, getMainData, search_text, setSearch_text }}
+      value={{ mainData, getMainData, search_text, setSearch_text, allData }}
     >
       {children}
     </Context.Provider>
