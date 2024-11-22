@@ -37,11 +37,14 @@ const DetailsBlock = ({ data }) => {
           data?.items[0]?.data?.map((e) => e?.product_name) || "-",
           data?.items[0]?.data?.map((e) => e?.product_quantity) || "-",
           data?.items[0]?.data?.map((e) => e?.unit_price_usd) || "-",
-          data?.items[0]?.data?.map(
-            (e) =>
-              parseFloat(e?.unit_price_usd * data?.product_quantity).toFixed(
-                2
-              ) || "-"
+          data?.items[0]?.data?.map((e) =>
+            isNaN(
+              parseFloat(e?.unit_price_usd * data?.product_quantity).toFixed(2)
+            )
+              ? "-"
+              : parseFloat(e?.unit_price_usd * data?.product_quantity).toFixed(
+                  2
+                )
           ),
           data?.total_quantity || "-",
           data?.total_price || "-",
