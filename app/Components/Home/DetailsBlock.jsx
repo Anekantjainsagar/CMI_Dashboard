@@ -61,10 +61,10 @@ const DetailsBlock = ({ data }) => {
               {!Array.isArray(e) ? (
                 <p
                   className={`w-full ${
-                    i > 7 || i <= 1 ? "justify-center" : "justify-start"
-                  } py-1 px-1 flex items-center min-h-min`}
+                    i > 7 || i <= 2 ? "justify-center" : "justify-start"
+                  } py-1 px-1 flex items-center min-h-[10vh] max-h-none`}
                 >
-                  {e == NaN ? "-" : e}
+                  {e}
                 </p>
               ) : (
                 <div className={`w-full`}>
