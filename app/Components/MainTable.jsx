@@ -1,5 +1,5 @@
 "use client";
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 import DetailsBlock from "./Home/DetailsBlock";
 import Context from "../Context/Context";
 

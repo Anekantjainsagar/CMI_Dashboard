@@ -77,7 +77,13 @@ const State = ({ children }) => {
 
   return (
     <Context.Provider
-      value={{ mainData, getMainData, search_text, setSearch_text, allData }}
+      value={{
+        mainData,
+        getMainData,
+        search_text,
+        setSearch_text,
+        allData,
+      }}
     >
       {children}
     </Context.Provider>
