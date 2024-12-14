@@ -8,6 +8,7 @@ import axios from "axios";
 import { BACKEND_URI } from "@/app/Utils/urls";
 import { getCookie } from "cookies-next";
 import { TiTick } from "react-icons/ti";
+import EditDetails from "./EditDetails";
 
 const customStyles = {
   overlay: { zIndex: 50 },
@@ -21,6 +22,7 @@ const customStyles = {
     width: "35vw",
     border: "none",
     backgroundColor: "transparent",
+    height: "70vh",
   },
 };
 
@@ -104,7 +106,7 @@ const AddNew = ({ showSubscribe, setShowSubscribe, data }) => {
   };
 
   return (
-    <div className="z-50">
+    <div className="z-50 small-scroller">
       <Toaster />
       <Modal
         isOpen={showSubscribe}
@@ -112,7 +114,7 @@ const AddNew = ({ showSubscribe, setShowSubscribe, data }) => {
         style={customStyles}
         ariaHideApp={true}
       >
-        <div className="relative bg-white border-aquaGreen border rounded-lg">
+        <div className="relative bg-white border-aquaGreen border rounded-lg small-scroller">
           <AiOutlineClose
             size={40}
             onClick={() => setShowSubscribe(false)}
@@ -136,6 +138,8 @@ const AddNew = ({ showSubscribe, setShowSubscribe, data }) => {
               <p className="w-4/12 text-lg text-gray-500">PO #</p>
               <p className="w-7/12">{data?.items[0]?.po_number}</p>
             </div>
+            <div className="h-[1px] mx-auto w-full my-3 bg-aquaGreen"></div>
+            <EditDetails data={data} setShowSubscribe={setShowSubscribe} />
             <div className="h-[1px] mx-auto w-full my-3 bg-aquaGreen"></div>
             <div className="w-full text-lg pb-4">
               {comments && (

@@ -1,28 +1,68 @@
 "use client";
 import Context from "@/app/Context/Context";
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import { IoSearchOutline } from "react-icons/io5";
 import { saveAs } from "file-saver";
 import * as XLSX from "xlsx";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { AiOutlineClose } from "react-icons/ai";
+import axios from "axios";
+import { BACKEND_URI } from "@/app/Utils/urls";
+import { getCookie } from "cookies-next";
 
 const Topbar = () => {
-  const { search_text, setSearch_text, allData } = useContext(Context);
-  const [startDate, setStartDate] = useState(null);
-  const [endDate, setEndDate] = useState(null);
+  const {
+    search_text,
+    setSearch_text,
+    allData,
+    startDate,
+    endDate,
+    setStartDate,
+    setEndDate,
+  } = useContext(Context);
 
-  const exportToExcel = () => {
-    const worksheet = XLSX.utils.json_to_sheet(allData);
-    const workbook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
-    const excelBuffer = XLSX.write(workbook, {
-      bookType: "xlsx",
-      type: "array",
-    });
-    const blob = new Blob([excelBuffer], { type: "application/octet-stream" });
-    saveAs(blob, `Document digitization.xlsx`);
+  const exportToExcel = async () => {
+    try {
+      const result = await axios.get(`${BACKEND_URI}/data/data/export`, {
+        headers: {
+          Authorization: `Bearer ${getCookie("token")}`,
+        },
+        responseType: "blob",
+      });
+
+      const blob = new Blob([result.data], {
+        type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      }); // Adjust MIME type if necessary.
+      const url = window.URL.createObjectURL(blob);
+
+      const link = document.createElement("a");
+      link.href = url;
+      link.setAttribute("download", "Document digitization.xlsx"); // Set a default file name.
+      document.body.appendChild(link);
+      link.click();
+
+      // Clean up the DOM.
+      link.parentNode.removeChild(link);
+      window.URL.revokeObjectURL(url);
+    } catch (err) {
+      console.log(err);
+    }
   };
+
+  // const exportToExcel = () => {
+  //   const worksheet = XLSX.utils.json_to_sheet(allData);
+  //   const workbook = XLSX.utils.book_new();
+  //   XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
+  //   const excelBuffer = XLSX.write(workbook, {
+  //     bookType: "xlsx",
+  //     type: "array",
+  //   });
+  //   const blob = new Blob([excelBuffer], {
+  //     type: "application/octet-stream",
+  //   });
+  //   saveAs(blob, `Document digitization.xlsx`);
+  // };
 
   return (
     <div className="flex items-center justify-between p-4">
@@ -60,7 +100,16 @@ const Topbar = () => {
           calendarClassName="shadow-lg rounded-md border border-gray-200"
           popperClassName="z-50"
         />
-
+        {(startDate || endDate) && (
+          <AiOutlineClose
+            className="cursor-pointer"
+            onClick={(e) => {
+              e.preventDefault();
+              setStartDate("");
+              setEndDate("");
+            }}
+          />
+        )}
         <button
           onClick={exportToExcel}
           className="bg-aquaGreen flex items-center gap-x-3 text-white font-semibold px-5 py-2 text-lg rounded-lg"
