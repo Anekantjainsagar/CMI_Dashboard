@@ -11,8 +11,7 @@ const EditDetails = ({ data, setShowSubscribe }) => {
   const [show, setShow] = useState(0);
 
   return (
-    <div className="w-full">
-      <h4 className="font-medium text-xl">Edit Details</h4>
+    <div className="w-full max-h-[36vh] overflow-y-auto small-scroller pb-5 border border-[#242731]/30 rounded-lg p-1">
       {data?.items[0]?.data &&
         data?.items[0]?.data?.map((e, i) => {
           return (
@@ -112,23 +111,21 @@ const Block = ({ data, i, show, setShow, setShowSubscribe }) => {
         onClick={() => {
           setShow(i);
         }}
-        className={`flex items-center w-full justify-between text-base cursor-pointer px-2.5 pt-1.5 hover:bg-gray-300/40 ${
-          i === show
-            ? "bg-gray-300/40 border-b border-b-gray-700/70 pb-3"
-            : "pb-1.5"
+        className={`flex items-center w-full justify-between text-base cursor-pointer px-2 pt-1.5 ${
+          i === show ? "border-b border-b-[#242731]/30 pb-3" : "pb-1.5"
         } rounded-sm transition-all`}
       >
-        <p className="text-[18px]">
+        <p className="text-[18px] text-[#242731] mb-0">
           {i + 1}. {data?.product_name}
         </p>
         {i != show ? <AiOutlineRight /> : <AiOutlineDown />}
       </div>
       {show === i && (
-        <div>
+        <div className="px-2">
           {fieldNames.map((field) => (
-            <div key={field} className="bg-gray-300/40 px-2.5">
-              <div className="flex items-center text-base py-2 justify-between">
-                <p className="w-3/12 text-end mr-4 capitalize">
+            <div key={field} className="w-full">
+              <div className="text-base py-2 justify-between">
+                <p className="capitalize mb-1 text-[#242731]">
                   {field.replace(/_/g, " ")}
                 </p>
                 <input
@@ -136,20 +133,17 @@ const Block = ({ data, i, show, setShow, setShowSubscribe }) => {
                   placeholder={`Enter ${field.replace(/_/g, " ")}`}
                   value={mainData[field]}
                   onChange={(e) => handleChange(e, field)}
-                  className="bg-transparent w-9/12 py-1 border border-gray-700 px-4 rounded-md outline-none"
+                  className="bg-transparent w-full py-1 border text-[#242731]/80 border-[#242731]/30 px-3 rounded-md outline-none"
                 />
               </div>
             </div>
           ))}
-          <div className="flex items-center justify-between bg-gray-300/40 px-2 py-2 w-full">
-            <p></p>
-            <button
-              onClick={handleSubmit}
-              className="bg-aquaGreen text-base font-semibold text-white py-1.5 px-5 rounded-lg"
-            >
-              Update Details
-            </button>
-          </div>
+          <button
+            onClick={handleSubmit}
+            className="bg-aquaGreen text-base font-semibold text-white py-1.5 mt-2 mb-3 w-full rounded-lg"
+          >
+            Update Details
+          </button>
         </div>
       )}
     </div>

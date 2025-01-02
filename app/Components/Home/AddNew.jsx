@@ -2,13 +2,15 @@
 import React, { useEffect, useState } from "react";
 import Modal from "react-modal";
 import { AiOutlineClose } from "react-icons/ai";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 import { BsThreeDotsVertical } from "react-icons/bs";
+import { FiEdit2 } from "react-icons/fi";
 import axios from "axios";
 import { BACKEND_URI } from "@/app/Utils/urls";
 import { getCookie } from "cookies-next";
 import { TiTick } from "react-icons/ti";
 import EditDetails from "./EditDetails";
+import { FaRegComment } from "react-icons/fa";
 
 const customStyles = {
   overlay: { zIndex: 50 },
@@ -22,11 +24,12 @@ const customStyles = {
     width: "35vw",
     border: "none",
     backgroundColor: "transparent",
-    height: "70vh",
+    height: "65vh",
   },
 };
 
 const AddNew = ({ showSubscribe, setShowSubscribe, data }) => {
+  const [clickedBtn, setClickedBtn] = useState("Edit Details");
   const [inputValue, setInputValue] = useState("");
   const [comments, setComments] = useState([]);
 
@@ -38,8 +41,10 @@ const AddNew = ({ showSubscribe, setShowSubscribe, data }) => {
   }, []);
 
   useEffect(() => {
-    getComments(data?.file_id);
-  }, [data]);
+    if (showSubscribe) {
+      getComments(data?.file_id);
+    }
+  }, [data, showSubscribe]);
 
   const saveComment = () => {
     let cookie = getCookie("token");
@@ -107,74 +112,110 @@ const AddNew = ({ showSubscribe, setShowSubscribe, data }) => {
 
   return (
     <div className="z-50 small-scroller">
-      <Toaster />
       <Modal
         isOpen={showSubscribe}
         onRequestClose={() => setShowSubscribe(false)}
         style={customStyles}
         ariaHideApp={true}
       >
-        <div className="relative bg-white border-aquaGreen border rounded-lg small-scroller">
-          <AiOutlineClose
-            size={40}
-            onClick={() => setShowSubscribe(false)}
-            className="absolute top-3 text-white right-2 px-2 cursor-pointer"
-          />
-          <div className="bg-aquaGreen text-center text-2xl font-semibold text-white py-4 rounded-t-lg">
-            Invoice Details
+        <div className="relative flex flex-col px-4 items-center bg-white border-[#D3D4D6] border rounded-lg">
+          <div className="flex items-center justify-between w-full text-[#242731] py-2 rounded-t-lg">
+            <h5 className="text-2xl font-medium">Invoice Details</h5>
+            <AiOutlineClose
+              onClick={() => setShowSubscribe(false)}
+              className="cursor-pointer text-2xl"
+            />
           </div>
-          <div className="py-4 px-8 text-xl flex flex-col items-center">
-            <div className="flex items-center mb-2 w-full">
-              <p className="w-4/12 text-lg text-gray-500">Invoice Date</p>
-              <p className="w-7/12">
+          <div className="flex w-full pt-1 pb-3 border-b border-b-gray-[#D3D4D6]">
+            <div className="min-w-[24%] max-w-[33%]">
+              <p className="text-gray-500">Invoice Date</p>
+              <p className="text-lg">
                 {new Date(data?.invoice_date).toString().slice(4, 16)}
               </p>
             </div>
-            <div className="flex items-center mb-2 w-full">
-              <p className="w-4/12 text-lg text-gray-500">Invoice #</p>
-              <p className="w-7/12">{data?.invoice_number}</p>
+            <div className="min-w-[24%] max-w-[33%]">
+              <p className="text-gray-500">Invoice #</p>
+              <p className="text-lg">{data?.invoice_number}</p>
             </div>
-            <div className="flex items-center mb-2 w-full">
-              <p className="w-4/12 text-lg text-gray-500">PO #</p>
-              <p className="w-7/12">{data?.items[0]?.po_number}</p>
+            <div className="min-w-[24%] max-w-[33%]">
+              <p className="text-gray-500">PO #</p>
+              <p className="text-lg">{data?.items[0]?.po_number}</p>
             </div>
-            <div className="h-[1px] mx-auto w-full my-3 bg-aquaGreen"></div>
-            <EditDetails data={data} setShowSubscribe={setShowSubscribe} />
-            <div className="h-[1px] mx-auto w-full my-3 bg-aquaGreen"></div>
-            <div className="w-full text-lg pb-4">
-              {comments && (
-                <div className="w-full">
-                  <p className="text-gray-500">Comments</p>
-                  <div className="mt-1.5 max-h-[35vh] overflow-y-auto pr-2 small-scroller">
-                    {comments?.map((e, i) => {
-                      return (
-                        <CommentBlock
-                          e={e}
-                          key={i}
-                          comments={comments}
-                          setComments={setComments}
-                        />
-                      );
-                    })}
-                  </div>
-                </div>
-              )}
-              <div className="flex items-center justify-between gap-x-1 mt-2">
-                <input
-                  type="text"
-                  value={inputValue}
-                  onChange={(e) => setInputValue(e.target.value)}
-                  placeholder="Add a Comment"
-                  className="border w-9/12 border-aquaGreen outline-none bg-transparent rounded-lg py-1 px-4"
-                />
-                <button
-                  className="w-3/12 bg-aquaGreen text-white py-1 ml-2 rounded-lg"
-                  onClick={saveComment}
+          </div>
+          <div className="w-full flex items-center gap-x-3 py-3">
+            {[
+              {
+                icon: <FiEdit2 />,
+                title: "Edit Details",
+              },
+              {
+                icon: <FaRegComment />,
+                title: "Comments",
+              },
+            ]?.map((e, i) => {
+              return (
+                <div
+                  key={i}
+                  className={`${
+                    clickedBtn === e?.title
+                      ? "bg-[#242731] text-white border-[#242731]"
+                      : "bg-white text-[#242731] border-gray-400"
+                  } flex items-center gap-x-2 px-4 border py-1.5 font-medium cursor-pointer rounded-lg`}
+                  onClick={() => {
+                    setClickedBtn(e?.title);
+                  }}
                 >
-                  Comment
-                </button>
+                  {e?.icon}
+                  {e?.title}
+                </div>
+              );
+            })}
+          </div>
+          <div className="w-full text-xl flex flex-col items-center">
+            {clickedBtn === "Comments" ? (
+              <div className="w-full text-lg pb-4">
+                {comments && (
+                  <div className="w-full">
+                    <div className="mt-1.5 max-h-[30vh] overflow-y-auto pr-2 small-scroller">
+                      {comments?.map((e, i) => {
+                        return (
+                          <CommentBlock
+                            e={e}
+                            key={i}
+                            comments={comments}
+                            setComments={setComments}
+                          />
+                        );
+                      })}
+                    </div>
+                  </div>
+                )}
+                {comments?.length == 0 && (
+                  <div className="w-full flex text-gray-700 items-center justify-center">
+                    There are no comments!!
+                  </div>
+                )}
+                <div className="flex items-center justify-between gap-x-1 mt-2">
+                  <input
+                    type="text"
+                    value={inputValue}
+                    onChange={(e) => setInputValue(e.target.value)}
+                    placeholder="Add a Comment"
+                    className="border w-[80%] border-aquaGreen outline-none bg-transparent rounded-lg py-1 px-4"
+                  />
+                  <button
+                    className="w-[20%] bg-aquaGreen text-white py-1 ml-2 rounded-lg"
+                    onClick={saveComment}
+                  >
+                    Comment
+                  </button>
+                </div>
               </div>
-            </div>
+            ) : (
+              <div className="pb-4 w-full rounded-lg">
+                <EditDetails data={data} setShowSubscribe={setShowSubscribe} />
+              </div>
+            )}
           </div>
         </div>
       </Modal>
@@ -193,19 +234,19 @@ const CommentBlock = ({ e, comments, setComments }) => {
   }, [e]);
 
   return (
-    <div className="w-full py-1.5 rounded-md mb-2 flex items-start justify-start">
-      <div className="w-1/12 h-[4.5vh] text-white flex items-center justify-center rounded-full bg-gray-400 mr-2.5">
+    <div className="w-full py-1.5 rounded-md mb-1 flex items-start justify-start">
+      <div className="w-1/12 aspect-square text-xl font-semibold text-white flex items-center justify-center rounded-full bg-gray-400/70 mr-2.5">
         {e?.createdBy[0]}
       </div>
       <div className="w-11/12">
         <div className="flex items-center justify-between">
-          <p className="text-sm text-gray-600">
-            <span className="text-black mr-1">{e?.createdBy}</span>{" "}
+          <p className="text-sm text-gray-600/90 mb-0">
+            <span className="text-black mr-1 font-medium">{e?.createdBy}</span>{" "}
             {new Date(e?.createdOn).toString()?.slice(4, 21)}
           </p>
           <div className="relative">
             {showBox && (
-              <div className="absolute right-6 top-0 text-sm bg-white border w-[7vw] rounded-md">
+              <div className="absolute z-50 right-6 top-0 text-sm bg-white border w-[7vw] rounded-md">
                 <p
                   className="text-center py-1.5 cursor-pointer hover:bg-gray-200 transition-all rounded-md"
                   onClick={() => {
@@ -266,7 +307,7 @@ const CommentBlock = ({ e, comments, setComments }) => {
             <textarea
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value)}
-              rows={4}
+              rows={2}
               placeholder="Enter a Comment"
               className="outline-none w-full small-scroller rounded-lg border border-aquaGreen text-[17px] px-2.5 py-1"
             ></textarea>
@@ -306,7 +347,7 @@ const CommentBlock = ({ e, comments, setComments }) => {
             />
           </div>
         ) : (
-          <p className="mr-2 text-[17px]">
+          <p className="mr-2 text-[17px] mb-0">
             {showFullDesc ? e?.comment : e?.comment?.slice(0, 90)}
             {e?.comment?.length > 90 && (
               <span

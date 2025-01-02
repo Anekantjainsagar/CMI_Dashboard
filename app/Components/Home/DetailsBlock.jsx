@@ -5,14 +5,6 @@ import AddNew from "./AddNew";
 const DetailsBlock = ({ data }) => {
   const [editAgency, setEditAgency] = useState(false);
 
-  function isNumeric(str) {
-    if (typeof str != "string") return false; // we only process strings!
-    return (
-      !isNaN(str) && // use type coercion to parse the _entirety_ of the string (`parseFloat` alone does not do this)...
-      !isNaN(parseFloat(str))
-    ); // ...and ensure strings of whitespace fail
-  }
-
   return (
     <>
       <AddNew
@@ -22,7 +14,7 @@ const DetailsBlock = ({ data }) => {
       />
       <div
         onClick={() => setEditAgency(!editAgency)}
-        className="border-gray-200/5 hover:border-gray-500/50 transition-all hover:bg-gray-100 mr-[7px] border-y grid gridNumbers items-center cursor-pointer text-[12px] border-b border-b-[#CACACA]"
+        className="border-gray-200/5 transition-all hover:bg-gray-50 mr-[7px] border-y grid gridNumbers items-center cursor-pointer text-[12px] border-b border-b-[#D3D4D6]"
       >
         {[
           data?.invoice_number || "-",
@@ -54,9 +46,7 @@ const DetailsBlock = ({ data }) => {
               key={i}
               className={`flex flex-col py-2 ${
                 !Array.isArray(e) && "px-2"
-              } items-center justify-center min-[1600px]:text-[15px] text-[12px] border-[#CACACA] h-full ${
-                i == 0 && "border-l"
-              } ${i !== 13 && "border-r"} relative overflow-hidden`}
+              } items-center justify-center min-[1600px]:text-[15px] text-[12px] border-[#CACACA] h-full relative overflow-hidden`}
             >
               {i == 0 && data?.comments_count > 0 && (
                 <div className="flex justify-center items-center absolute -right-2 -top-1">

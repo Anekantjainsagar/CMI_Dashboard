@@ -5,7 +5,7 @@ import Topbar from "../Components/Utils/Topbar";
 const App = () => {
   return (
     <div>
-      <Navbar />
+      {/* <Navbar /> */}
       <Topbar />
       <MainTable />
     </div>  
