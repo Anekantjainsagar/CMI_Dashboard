@@ -140,7 +140,7 @@ const Block = ({ data, i, show, setShow, setShowSubscribe }) => {
           ))}
           <button
             onClick={handleSubmit}
-            className="bg-aquaGreen text-base font-semibold text-white py-1.5 mt-2 mb-3 w-full rounded-lg"
+            className="bg-aquaGreen border border-transparent hover:bg-transparent hover:border-aquaGreen hover:text-aquaGreen transition-all text-base font-semibold text-white py-1.5 mt-2 mb-3 w-full rounded-lg"
           >
             Update Details
           </button>

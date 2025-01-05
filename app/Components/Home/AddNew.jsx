@@ -164,6 +164,7 @@ const AddNew = ({ showSubscribe, setShowSubscribe, data }) => {
                   onClick={() => {
                     setClickedBtn(e?.title);
                   }}
+                  style={{ margin: 0 }}
                 >
                   {e?.icon}
                   {e?.title}
@@ -204,7 +205,7 @@ const AddNew = ({ showSubscribe, setShowSubscribe, data }) => {
                     className="border w-[80%] border-aquaGreen outline-none bg-transparent rounded-lg py-1 px-4"
                   />
                   <button
-                    className="w-[20%] bg-aquaGreen text-white py-1 ml-2 rounded-lg"
+                    className="w-[20%] bg-aquaGreen border border-transparent hover:bg-transparent hover:border-aquaGreen hover:text-aquaGreen transition-all text-white py-1 ml-2 rounded-lg"
                     onClick={saveComment}
                   >
                     Comment
@@ -248,7 +249,7 @@ const CommentBlock = ({ e, comments, setComments }) => {
             {showBox && (
               <div className="absolute z-50 right-6 top-0 text-sm bg-white border w-[7vw] rounded-md">
                 <p
-                  className="text-center py-1.5 cursor-pointer hover:bg-gray-200 transition-all rounded-md"
+                  className="text-center py-1.5 mb-0 cursor-pointer hover:bg-gray-200 transition-all rounded-md"
                   onClick={() => {
                     setShowBox(false);
                     setIsEditable(true);
@@ -257,7 +258,7 @@ const CommentBlock = ({ e, comments, setComments }) => {
                   Edit Comment
                 </p>
                 <p
-                  className="text-center py-1.5 cursor-pointer hover:bg-gray-200 transition-all rounded-md"
+                  className="text-center py-1.5 mb-0 cursor-pointer hover:bg-gray-200 transition-all rounded-md"
                   onClick={() => {
                     let cookie = getCookie("token");
                     axios

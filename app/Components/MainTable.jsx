@@ -76,7 +76,7 @@ const MainTable = () => {
                 <div
                   className={`w-[30px] min-[1600px]:w-[40px] h-[30px] text-sm min-[1600px]:text-base min-[1600px]:h-[40px] rounded-lg flex items-center justify-center cursor-pointer ${
                     mainData?.current_page == e
-                      ? "bg-aquaGreen text-white"
+                      ? "bg-aquaGreen border border-transparent hover:bg-transparent hover:border-aquaGreen hover:text-aquaGreen transition-all text-white"
                       : "text-[#85888E] border border-gray-300"
                   }`}
                   key={i}
