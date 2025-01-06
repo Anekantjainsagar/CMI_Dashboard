@@ -68,7 +68,7 @@ const Topbar = () => {
           height={1000}
           className="w-[5vw] cursor-pointer"
         />
-        <h2 className="text-3xl font-semibold ml-3 mt-2.5">Invoice Summary</h2>
+        <h2 className="text-3xl font-semibold ml-3 mt-4">Invoice Summary</h2>
       </div>
       <div className="flex items-center gap-x-3">
         <div className="relative w-[20vw]">
