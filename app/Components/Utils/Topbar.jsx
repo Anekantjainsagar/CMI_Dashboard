@@ -13,7 +13,7 @@ import { useRouter } from "next/navigation";
 const { RangePicker } = DatePicker;
 
 const Topbar = () => {
-  const { search_text, setSearch_text, setStartDate, setEndDate } =
+  const { search_text, setSearch_text, setStartDate, setEndDate, getMainData } =
     useContext(Context);
   const [isHovered, setIsHovered] = useState(false);
   const history = useRouter();
@@ -58,6 +58,7 @@ const Topbar = () => {
         className="flex items-center cursor-pointer"
         onClick={() => {
           history.push("/dashboard");
+          getMainData(1);
         }}
       >
         <Image
@@ -67,7 +68,7 @@ const Topbar = () => {
           height={1000}
           className="w-[5vw] cursor-pointer"
         />
-        <h2 className="text-3xl font-semibold ml-3">Invoice Summary</h2>
+        <h2 className="text-3xl font-semibold ml-3 mt-2.5">Invoice Summary</h2>
       </div>
       <div className="flex items-center gap-x-3">
         <div className="relative w-[20vw]">
@@ -95,9 +96,9 @@ const Topbar = () => {
             onClick={exportToExcel}
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
-            className="hover:bg-transparent border border-transparent hover:border-aquaGreen hover:text-aquaGreen bg-aquaGreen flex items-center justify-center gap-x-3 text-white h-[45px] w-[15vw] text-base rounded-lg"
+            className="hover:bg-transparent border border-transparent hover:border-aquaGreen hover:text-aquaGreen bg-aquaGreen flex items-center justify-center gap-x-3 text-white h-[45px] px-5 text-base rounded-lg"
           >
-            Export as XLSX
+            Export
             <svg
               width="21"
               height="21"

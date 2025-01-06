@@ -14,7 +14,7 @@ const MainTable = () => {
 
   return (
     <div className="px-4 border border-gray-200/5 rounded-2xl">
-      <div className="grid bg-[#F8F8F8] mr-3.5 text-[#242731] font-semibold gridNumbers items-center border border-[#D3D4D6] rounded-t-2xl">
+      <div className="grid bg-[#F8F8F8] text-[#242731] font-semibold gridNumbers items-center border border-[#D3D4D6] rounded-t-2xl">
         {[
           "Invoice #",
           "Invoice Date",
@@ -29,12 +29,12 @@ const MainTable = () => {
           "Product Price ($)",
           "Total Quantity",
           "Total Price ($)",
-        ].map((e, i) => {
+        ].map((e, i, arr) => {
           return (
             <h5
               key={i}
-              className={`text-[13px] min-[1600px]:text-base px-2 h-[6vh] flex items-center justify-center text-center border-r-[#D3D4D6] ${
-                i !== 13 && "border-r"
+              className={`text-[13px] mb-0 min-[1600px]:text-base px-2 h-[6vh] flex items-center justify-center text-center border-r-[#D3D4D6] ${
+                i !== arr.length - 1 && "border-r"
               }`}
             >
               {e}

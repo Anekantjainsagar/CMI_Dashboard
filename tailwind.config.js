@@ -8,7 +8,7 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        aquaGreen: "#3690BB",
+        aquaGreen: "#4572B7",
       },
     },
   },

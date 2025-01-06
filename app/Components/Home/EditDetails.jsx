@@ -11,9 +11,9 @@ const EditDetails = ({ data, setShowSubscribe }) => {
   const [show, setShow] = useState(0);
 
   return (
-    <div className="w-full max-h-[36vh] overflow-y-auto small-scroller pb-5 border border-[#242731]/30 rounded-lg p-1">
+    <div className="w-full max-h-[48vh] overflow-y-auto small-scroller pb-5 border border-[#242731]/30 rounded-lg p-1">
       {data?.items[0]?.data &&
-        data?.items[0]?.data?.map((e, i) => {
+        data?.items[0]?.data?.map((e, i, arr) => {
           return (
             <Block
               data={e}
@@ -22,6 +22,7 @@ const EditDetails = ({ data, setShowSubscribe }) => {
               show={show}
               setShow={setShow}
               setShowSubscribe={setShowSubscribe}
+              length={arr.length}
             />
           );
         })}
@@ -45,7 +46,7 @@ const fieldNames = [
   "quantity_per_carton",
 ];
 
-const Block = ({ data, i, show, setShow, setShowSubscribe }) => {
+const Block = ({ data, i, show, setShow, setShowSubscribe, length }) => {
   const { getMainData } = useContext(Context);
   const [mainData, setMainData] = useState({
     hs_code: "",
@@ -122,25 +123,29 @@ const Block = ({ data, i, show, setShow, setShowSubscribe }) => {
       </div>
       {show === i && (
         <div className="px-2">
-          {fieldNames.map((field) => (
-            <div key={field} className="w-full">
-              <div className="text-base py-2 justify-between">
-                <p className="capitalize mb-1 text-[#242731]">
-                  {field.replace(/_/g, " ")}
-                </p>
-                <input
-                  type="text"
-                  placeholder={`Enter ${field.replace(/_/g, " ")}`}
-                  value={mainData[field]}
-                  onChange={(e) => handleChange(e, field)}
-                  className="bg-transparent w-full py-1 border text-[#242731]/80 border-[#242731]/30 px-3 rounded-md outline-none"
-                />
+          <div className="grid grid-cols-2 gap-x-4">
+            {fieldNames.map((field) => (
+              <div key={field} className="w-full">
+                <div className="text-base py-2 justify-between">
+                  <p className="capitalize mb-1 text-[#242731]">
+                    {field.replace(/_/g, " ")}
+                  </p>
+                  <input
+                    type="text"
+                    placeholder={`Enter ${field.replace(/_/g, " ")}`}
+                    value={mainData[field]}
+                    onChange={(e) => handleChange(e, field)}
+                    className="bg-transparent w-full py-1 border text-[#242731]/80 border-[#242731]/30 px-3 rounded-md outline-none"
+                  />
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
           <button
             onClick={handleSubmit}
-            className="bg-aquaGreen border border-transparent hover:bg-transparent hover:border-aquaGreen hover:text-aquaGreen transition-all text-base font-semibold text-white py-1.5 mt-2 mb-3 w-full rounded-lg"
+            className={`bg-aquaGreen border border-transparent hover:bg-transparent hover:border-aquaGreen hover:text-aquaGreen transition-all text-base font-semibold text-white py-1.5 mt-2 ${
+              i !== length - 1 && "mb-3"
+            } w-full rounded-lg`}
           >
             Update Details
           </button>

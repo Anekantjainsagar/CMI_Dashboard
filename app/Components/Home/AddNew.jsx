@@ -21,10 +21,10 @@ const customStyles = {
     bottom: "auto",
     marginRight: "-50%",
     transform: "translate(-50%, -50%)",
-    width: "35vw",
+    width: "40vw",
     border: "none",
     backgroundColor: "transparent",
-    height: "65vh",
+    height: "75vh",
   },
 };
 
@@ -127,19 +127,19 @@ const AddNew = ({ showSubscribe, setShowSubscribe, data }) => {
             />
           </div>
           <div className="flex w-full pt-1 pb-3 border-b border-b-gray-[#D3D4D6]">
-            <div className="min-w-[24%] max-w-[33%]">
+            <div className="min-w-[24%] max-w-[33%] mb-0">
               <p className="text-gray-500">Invoice Date</p>
-              <p className="text-lg">
+              <p className="text-lg mb-0">
                 {new Date(data?.invoice_date).toString().slice(4, 16)}
               </p>
             </div>
-            <div className="min-w-[24%] max-w-[33%]">
+            <div className="min-w-[24%] max-w-[33%] mb-0">
               <p className="text-gray-500">Invoice #</p>
-              <p className="text-lg">{data?.invoice_number}</p>
+              <p className="text-lg mb-0">{data?.invoice_number}</p>
             </div>
-            <div className="min-w-[24%] max-w-[33%]">
+            <div className="min-w-[24%] max-w-[33%] mb-0">
               <p className="text-gray-500">PO #</p>
-              <p className="text-lg">{data?.items[0]?.po_number}</p>
+              <p className="text-lg mb-0">{data?.items[0]?.po_number}</p>
             </div>
           </div>
           <div className="w-full flex items-center gap-x-3 py-3">
@@ -177,7 +177,7 @@ const AddNew = ({ showSubscribe, setShowSubscribe, data }) => {
               <div className="w-full text-lg pb-4">
                 {comments && (
                   <div className="w-full">
-                    <div className="mt-1.5 max-h-[30vh] overflow-y-auto pr-2 small-scroller">
+                    <div className="mt-1.5 max-h-[42vh] overflow-y-auto pr-2 small-scroller">
                       {comments?.map((e, i) => {
                         return (
                           <CommentBlock

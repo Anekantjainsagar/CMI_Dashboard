@@ -50,17 +50,17 @@ const App = () => {
                   }
                 )
                 .then((res) => {
-                  if (res.status == 200 && res.data.access_token) {
-                    setCookie("token", res.data.access_token);
-                    toast.success("Login Successfully");
-                    getMainData();
-                    history.push("/dashboard");
-                  }
+                  console.log(res.data);
                   if (res.status == 200) {
-                    console.log(Object.keys(res.data));
-                    console.log(res.data);
-                    console.log(res.data[Object.keys(res.data)[0]]);
-                    toast.error(res.data[Object.keys(res.data)[0]]);
+                    if (res.data.access_token) {
+                      setCookie("token", res.data.access_token);
+                      toast.success("Login Successfully");
+                      getMainData();
+                      history.push("/dashboard");
+                    } else {
+                      console.log(res.data[Object.keys(res.data)[0]]);
+                      toast.error(res.data[Object.keys(res.data)[0]]);
+                    }
                   }
                 })
                 .catch((err) => {
