@@ -1,5 +1,5 @@
-import localFont from "next/font/local";
 import "./globals.css";
+import localFont from "next/font/local";
 import State from "@/app/Context/State";
 import { Toaster } from "react-hot-toast";
 

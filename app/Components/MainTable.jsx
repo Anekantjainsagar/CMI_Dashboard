@@ -1,7 +1,7 @@
 "use client";
 import { useContext } from "react";
-import DetailsBlock from "./Home/DetailsBlock";
 import Context from "../Context/Context";
+import DetailsBlock from "./Home/DetailsBlock";
 import {
   MdOutlineChevronLeft,
   MdOutlineChevronRight,

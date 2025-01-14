@@ -1,15 +1,14 @@
 "use client";
 import axios from "axios";
-import { useRouter } from "next/navigation";
-import React, { useContext, useState } from "react";
-import toast from "react-hot-toast";
-import { FaEye, FaEyeSlash } from "react-icons/fa";
-import { BACKEND_URI } from "./Utils/urls";
-import { setCookie } from "cookies-next";
-import Context from "./Context/Context";
 import Image from "next/image";
-import { CiLogin } from "react-icons/ci";
+import toast from "react-hot-toast";
+import Context from "./Context/Context";
+import { setCookie } from "cookies-next";
+import { BACKEND_URI } from "./Utils/urls";
+import { useRouter } from "next/navigation";
 import { MdEmail, MdLock } from "react-icons/md";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
+import React, { useContext, useState } from "react";
 
 const App = () => {
   const { getMainData } = useContext(Context);
@@ -38,10 +37,8 @@ const App = () => {
           height={1000}
           className="w-[6vw] cursor-pointer my-6"
         />
-        <div className="w-full"> 
-          <h1 className="text-4xl text-center text-black font-[700]">
-            Login
-          </h1>
+        <div className="w-full">
+          <h1 className="text-4xl text-center text-black font-[700]">Login</h1>
           {/* <p className="text-gray-500 text-center w-10/12 mx-auto text-lg my-2">
             Enter your email address & password to login into the CMI Portal
           </p> */}

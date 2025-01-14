@@ -1,9 +1,9 @@
 "use client";
-import { BACKEND_URI } from "@/app/Utils/urls";
-import Context from "./Context";
-import { useEffect, useState } from "react";
 import axios from "axios";
+import Context from "./Context";
 import { getCookie } from "cookies-next";
+import { useEffect, useState } from "react";
+import { BACKEND_URI } from "@/app/Utils/urls";
 
 const State = ({ children }) => {
   const [mainData, setMainData] = useState();

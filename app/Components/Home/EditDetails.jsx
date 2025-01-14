@@ -1,17 +1,17 @@
 "use client";
+import axios from "axios";
+import toast from "react-hot-toast";
+import { getCookie } from "cookies-next";
 import Context from "@/app/Context/Context";
 import { BACKEND_URI } from "@/app/Utils/urls";
-import axios from "axios";
-import { getCookie } from "cookies-next";
 import React, { useContext, useEffect, useState } from "react";
-import toast from "react-hot-toast";
 import { AiOutlineDown, AiOutlineRight } from "react-icons/ai";
 
 const EditDetails = ({ data, setShowSubscribe }) => {
   const [show, setShow] = useState(0);
 
   return (
-    <div className="w-full max-h-[48vh] overflow-y-auto small-scroller pb-5 border border-[#242731]/30 rounded-lg p-1">
+    <div className="w-full max-h-[48vh] overflow-y-auto small-scroller pb-3 border border-[#242731]/30 rounded-lg p-1">
       {data?.items[0]?.data &&
         data?.items[0]?.data?.map((e, i, arr) => {
           return (
@@ -110,7 +110,15 @@ const Block = ({ data, i, show, setShow, setShowSubscribe, length }) => {
     <div>
       <div
         onClick={() => {
-          setShow(i);
+          if (show === i) {
+            if (i < length) {
+              setShow(i + 1);
+            } else {
+              setShow(0);
+            }
+          } else {
+            setShow(i);
+          }
         }}
         className={`flex items-center w-full justify-between text-base cursor-pointer px-2 pt-1.5 ${
           i === show ? "border-b border-b-[#242731]/30 pb-3" : "pb-1.5"

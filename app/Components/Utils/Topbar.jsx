@@ -1,18 +1,19 @@
 "use client";
-import Context from "@/app/Context/Context";
-import React, { useContext, useState } from "react";
-import { IoSearchOutline } from "react-icons/io5";
-import "react-datepicker/dist/react-datepicker.css";
 import axios from "axios";
-import { BACKEND_URI } from "@/app/Utils/urls";
-import { getCookie } from "cookies-next";
+import "antd/dist/reset.css";
 import Image from "next/image";
 import { DatePicker } from "antd";
-import "antd/dist/reset.css"; // Include this if you want a clean slate with Tailwind
+import { deleteCookie, getCookie } from "cookies-next";
 import { useRouter } from "next/navigation";
-const { RangePicker } = DatePicker;
+import Context from "@/app/Context/Context";
+import { IoIosLogOut } from "react-icons/io";
+import { BACKEND_URI } from "@/app/Utils/urls";
+import { IoSearchOutline } from "react-icons/io5";
+import "react-datepicker/dist/react-datepicker.css";
+import React, { useContext, useState } from "react";
 
 const Topbar = () => {
+  const { RangePicker } = DatePicker;
   const { search_text, setSearch_text, setStartDate, setEndDate, getMainData } =
     useContext(Context);
   const [isHovered, setIsHovered] = useState(false);
@@ -57,6 +58,9 @@ const Topbar = () => {
       <div
         className="flex items-center cursor-pointer"
         onClick={() => {
+          setStartDate("");
+          setEndDate("");
+          setSearch_text("");
           history.push("/dashboard");
           getMainData(1);
         }}
@@ -122,6 +126,16 @@ const Topbar = () => {
                 </clipPath>
               </defs>
             </svg>
+          </button>{" "}
+          <button
+            onClick={() => {
+              deleteCookie("token");
+              history.push("/");
+            }}
+            className="hover:bg-transparent border border-transparent hover:border-aquaGreen hover:text-aquaGreen bg-aquaGreen flex items-center justify-center gap-x-3 text-white h-[45px] px-5 text-base rounded-lg"
+          >
+            Logout
+            <IoIosLogOut className="text-xl" />
           </button>
         </div>
       </div>

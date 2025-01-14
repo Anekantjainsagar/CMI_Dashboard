@@ -1,5 +1,4 @@
 import MainTable from "../Components/MainTable";
-import Navbar from "../Components/Utils/Navbar";
 import Topbar from "../Components/Utils/Topbar";
 
 const App = () => {
@@ -8,7 +7,7 @@ const App = () => {
       {/* <Navbar /> */}
       <Topbar />
       <MainTable />
-    </div>  
+    </div>
   );
 };
 

@@ -1,6 +1,6 @@
 "use context";
-import { useState } from "react";
 import AddNew from "./AddNew";
+import { useState } from "react";
 
 const DetailsBlock = ({ data }) => {
   const [editAgency, setEditAgency] = useState(false);
@@ -27,19 +27,24 @@ const DetailsBlock = ({ data }) => {
           data?.port_of_loading || "-",
           data?.items[0]?.data?.map((e) => e?.product_id) || "-",
           data?.items[0]?.data?.map((e) => e?.product_name) || "-",
-          data?.items[0]?.data?.map((e) => e?.product_quantity) || "-",
-          data?.items[0]?.data?.map((e) => e?.unit_price_usd) || "-",
+          data?.items[0]?.data?.map((e) =>
+            parseFloat(e?.product_quantity)?.toLocaleString("en-US")
+          ) || "-",
+          data?.items[0]?.data?.map(
+            (e) => "$" + (+e?.unit_price_usd).toFixed(2).toLocaleString("en-US")
+          ) || "-",
           data?.items[0]?.data?.map((e) =>
             isNaN(
               parseFloat(e?.unit_price_usd * data?.product_quantity).toFixed(2)
             )
               ? "-"
-              : parseFloat(e?.unit_price_usd * data?.product_quantity).toFixed(
+              : "$" +
+                parseFloat(e?.unit_price_usd * data?.product_quantity).toFixed(
                   2
                 )
           ),
-          data?.total_quantity || "-",
-          data?.total_price || "-",
+          data?.total_quantity?.toLocaleString("en-US") || "-",
+          "$" + data?.total_price?.toLocaleString("en-US") || "-",
         ].map((e, i) => {
           return (
             <div
