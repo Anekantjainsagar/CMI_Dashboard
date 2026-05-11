@@ -8,7 +8,7 @@ import { useRouter } from "next/navigation";
 import Context from "@/app/Context/Context";
 import { IoIosLogOut } from "react-icons/io";
 import { BACKEND_URI } from "@/app/Utils/urls";
-import { IoSearchOutline } from "react-icons/io5";
+import { IoCalendarNumberOutline, IoSearchOutline } from "react-icons/io5";
 import "react-datepicker/dist/react-datepicker.css";
 import React, { useContext, useState } from "react";
 
@@ -94,6 +94,8 @@ const Topbar = () => {
               height: "45px",
               fontSize: "16px",
             }}
+            suffixIcon={<IoCalendarNumberOutline />} // Customize the icon here
+            separator={<IoCalendarNumberOutline className="text-[#CACACA]" />} // Customize the middle icon (separator)
             onChange={handleDateChange}
           />
           <button
